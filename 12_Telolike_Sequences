@@ -1,0 +1,15 @@
+#!/bin/bash
+
+cd ..
+### Telo-like consensus
+
+fuzznuc -complement ./Downloads/Mp*.fasta -pattern [GA][CA]CCTA[GA] -rformat gff ./GFF-files/telolike_MpTak.gff
+fuzznuc -complement ./Downloads/P*.faa -pattern [GA][CA]CCTA[GA] -rformat gff ./GFF-files/telolike_Physcomitrium.gff
+
+
+
+#Es gibt in /biodata/dep_coupland/common/TAIR10/cis_elements  Infos, da hatte ich mich mal ausgetobt und einige Annotationsfiles für Ara gemacht. In den .txt ist info was da wie gamacht wurde, 
+#also consensus für eine kleine Anzahl von TFs
+#Der "beste" consesus für TRBs und epigenetische Regulation in Arabidopsis war RMCCTAR (R= Purine, M=CA), der code ist IUPAC standard (https://en.wikipedia.org/wiki/Nucleic_acid_notation ), meistens vergisst man es natürlich.
+#fuzznuc -complement ./Downloads/Mp*.faa -pattern [GA][CA]CCTA[GA] -rformat gff FUZZNUC-files/TAIR10-RMCCTAR-box.fuzznuc
+#Das sollte ein paar hits mehr sein und dadurch die Plots etwas weniger zackig ausfallen.

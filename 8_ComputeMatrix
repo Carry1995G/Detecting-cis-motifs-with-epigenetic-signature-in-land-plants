@@ -1,0 +1,52 @@
+#!/bin/bash
+
+cd ..
+
+#mkdir Matrix
+###Compute Matrix for later profile plots 
+
+###### P. patens ##########
+#computeMatrix scale-regions 	-S ./BIGWIG/sorted_telobox_P*blacklist.bw \
+#				-R ./Annotation_Files/gff2bed_Physcomitrium_patens_6_columns.bed \
+#				-b 1000 -a 1000 \
+#				-bl ./Blacklists/Ppatens*.bed \
+#				-o ./Matrix/Physcomitrium_patens_blacklist_6bed_bamCovmin.gz \
+
+#computeMatrix scale-regions 	-S ./BIGWIG/sorted_telolike_P*.bw \
+#				-R ./Annotation_Files/gff2bed_Physcomitrium_patens_6_columns.bed \
+#				-bl ./Blacklists/Mp_Tak_Blacklist.bed \
+#				-b 1000 -a 1000 -o ./Matrix/telolike_Physcomitrium_blacklist_6bed_bamCovmin.gz \
+
+computeMatrix scale-regions 	-S ./BIGWIG/sorted_telobox_P*blacklist.bw \
+				./BIGWIG/sorted_telolike_P*.bw \
+				-R ./Annotation_Files/gff2bed_Physcomitrium_patens_6_columns.bed \
+				-b 1000 -a 1000 \
+				-bl ./Blacklists/Ppatens*.bed \
+				-o ./Matrix/telobox-telolike_Physcomitrium_blacklist_6bed_bamCovmin.gz \
+
+#computeMatrix scale-regions 	-S ./BIGWIG/sorted_telobox_P*blacklist.bw \
+#				-R ./Annotation_Files/P*.gtf \
+#				-b 1000 -a 1000 \
+#				-bl ./Blacklists/Ppatens*.bed \
+#				-o ./Matrix/Physcomitrium_patens_blacklist_filGTF_bamCovmin.gz \
+
+####### MpTak #########
+#computeMatrix scale-regions -S ./BIGWIG/sorted_telobox_MpTak1v5.1.bw -R ./Downloads/*.gtf -b 1000 -a 1000 0 -o ./Matrix/MpTak1v5.1_6_origGTF_bamCovmin.gz
+
+#computeMatrix scale-regions -S ./BIGWIG/sorted_telobox_MpTak1v5.1.bw -R ./Annotation_Files/Mp*.gtf -b 1000 -a 1000 -o ./Matrix/MpTak1v5.1_6_filGTF_bamCovmin.gz
+
+#computeMatrix scale-regions -S ./BIGWIG/sorted_telolike_M*.bw -R ./Downloads/*.gtf -b 1000 -a 1000 -o ./Matrix/telolike_MpTak_origGTF_bamCovmin.gz
+
+
+computeMatrix scale-regions 	-S ./BIGWIG/sorted_telobox_M*blacklist.bw \
+				./BIGWIG/sorted_telolike_M*blacklist.bw \
+				-R ./Downloads/*.gtf \
+				-b 1000 -a 1000 \
+				-o ./Matrix/MpTak_telolike_telobox_blacklist_filGTF_bamCovmin.gz \
+				-bl ./Blacklists/cut*.bed
+
+#cd BIGWIG
+#for i in sorted_telo*blacklist.bw
+#do
+#computeMatrix scale-regions -S $i -R ../Downloads/Mp*.gtf -b 1000 -a 1000 -bl ../Blacklists/Mp_Tak_Blacklist.bed -o ../Matrix/"${i%.bw}_GTF_Covmin.gz"
+#done

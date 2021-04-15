@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cd ..
+###
+
+cd ./Downloads
+
+for i in *.gff
+do
+gffread $i -C -T -o ../Annotation_Files/"${i%.gff}.gtf"
+done

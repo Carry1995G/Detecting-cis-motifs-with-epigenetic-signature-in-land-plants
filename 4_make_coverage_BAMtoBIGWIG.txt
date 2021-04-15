@@ -1,0 +1,37 @@
+#!/bin/bash
+
+
+cd ..
+
+#mkdir BIGWIG
+
+cd BAM-files                                                                                            
+
+
+## calculate coverage of all regions except for regions listed in the blacklist
+                                               
+#for i in telobox_P*.bam                                                  
+#do                                                              
+#samtools index $i
+#bamCoverage -b $i -o ../BIGWIG/${i/.bam/blacklist.bw} -p 70 --extendReads 200 --ignoreDuplicates -bl ../Blacklists/Ppatens_Blacklist.bed
+#done
+
+                                                 
+#for i in telobox_Mp*.bam                                                  
+#do                                                              
+#samtools index $i
+#bamCoverage -b $i -o ../BIGWIG/${i/.bam/blacklist.bw} -p 70 --extendReads 200 --ignoreDuplicates -bl ../Blacklists/MpTak_F*.bed
+#done
+
+
+#for i in telolike_M*.bam                                                  
+#do                                                              
+#samtools index $i
+#bamCoverage -b $i -o ../BIGWIG/${i/.bam/blacklist.bw} -p 70 --extendReads 200 --ignoreDuplicates -bl ../Blacklists/MpTak_F*.bed
+#done
+
+for i in telolike_P*.bam                                                  
+do                                                              
+samtools index $i
+bamCoverage -b $i -o ../BIGWIG/${i/.bam/blacklist.bw} -p 70 --extendReads 200 --ignoreDuplicates -bl ../Blacklists/Ppatens_Blacklist.bed
+done

@@ -1,0 +1,32 @@
+#!/bin/bash
+
+cd ../Matrix
+
+
+## to quickly generate plot profiles without labels 
+#for i in sorted_*.gz
+#do
+#plotProfile -m $i -o ../Plots/${i%.gz}.png
+#done
+
+
+### Generate Plot Profiles from matrices and label the samples (for protocol)
+
+plotProfile 	-m telobox-telolike_P*.gz \
+		-o Ppatens_telobox_telolike_blacklist.png \
+		--samplesLabel "telobox sequences in Physcomitrella patens" "telolike sequences in Physcomitrium patens"
+
+#plotProfile 	-m telolike_P*blacklist*.gz \
+#		-o Ppatens_telolike_blacklist.png\
+#		--samplesLabel "telolike sequences in Physcomitrium patens"
+
+#plotProfile	-m Physcomitrium*blacklist_6bed*.gz\
+#		-o Ppatens_telobox_6bed_blacklist.png\
+#		--samplesLabel "telobox sequences in Physcomitrella patens" 
+
+plotProfile 	-m MpTak_telolike_telobox*.gz\
+		-o Mptak_telobox_telolike_blacklist.png\
+		--samplesLabel "telobox sequences in Marchantia polymorpha" "telolike sequences in Marchantia polymorpha"
+
+mv *png ../Plots
+

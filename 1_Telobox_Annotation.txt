@@ -1,0 +1,11 @@
+### Telobox Annotation mithilfe von fuzznuc (EMBOSS)
+
+cd ..
+
+mkdir GFF-files
+
+fuzznuc ./Downloads/Marchantia_polymorpha_subsp._polymorpha.faa -pattern AAACCCTA -complement -rformat gff ./GFF-files/telobox_Marchantia_polymorpha.gff
+
+fuzznuc ./Downloads/Physcomitrium_patens_formerly_Physcomitrella_patens.faa -pattern AAACCCTA -complement -rformat gff ./GFF-files/telobox_Physcomitrium_patens.gff
+
+fuzznuc ./Downloads/MpTak1v5.1.fasta -pattern AAACCCTA -complement -rformat gff ./GFF-files/telobox_MpTak1v5.1.gff

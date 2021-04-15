@@ -1,0 +1,20 @@
+#!/bin/bash
+
+
+cd ..
+
+#### 
+
+#awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($0,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' ./Downloads/Physcomitrium_patens_formerly_Physcomitrella_patens.faa > Physcomitrium_patens_chrom.txt
+#sed -i 's/lcl|//g' Physcomitrium_patens_chrom.txt  #remove lcl in front of scaffold
+sed -i 's/gi|//g' Physcomitrium_patens_chrom.txt #remove gi| in front of chromosomes
+
+
+
+#awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($0,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' ./Downloads/Marchantia_polymorpha_subsp._polymorpha.faa > Marchantia_polymorpha_chrom.txt
+#sed -i 's/lcl|//g' Marchantia_polymorpha_chrom.txt
+
+
+
+#awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($0,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' ./Downloads/MpTak1v5.1.fasta > MpTak1v5_chrom.txt
+#sed -i 's/lcl|//g' MpTak1v5_chrom.txt
