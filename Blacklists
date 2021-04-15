@@ -6,20 +6,15 @@ mkdir Windows
 bedtools makewindows -g ./MpTak1v5_chrom.txt -w 200 > ./Windows/MpTak1v5_200bpwindows.bed
 bedtools makewindows -g ./P*chrom.txt -w 200 > ./Windows/Physcomitriumpatens_200bpwindows.bed
 
-#Dann kann man noch einen bed file machen, in dem dann für jedes Fenser die Anzahl der hits steht. Kann man auch so sortieren, dass die fenster mit den höchsten hits am Anfang des files stehen.
-
-#bedtools coverage -a ./Windows/MpTak1v5_200bpwindows.bed -b ./BED-files/telobox_Mp*.bed -counts|  sort -k1,1 -k2,2n >./Windows/MpTak1v5_counts_hitsperwindow.bed
+#bed file with hits per window 
+bedtools coverage -a ./Windows/MpTak1v5_200bpwindows.bed -b ./BED-files/telobox_Mp*.bed -counts|  sort -k1,1 -k2,2n >./Windows/MpTak1v5_counts_hitsperwindow.bed
 bedtools coverage -a ./Windows/Physcomitriumpatens_200bpwindows.bed -b ./BED-files/telobox_P*.bed -counts|  sort -k1,1 -k2,2n > ./Windows/Physcomitriumpatens_counts_hitsperwindow.bed
-
-
 
 ###Blacklist for regions with more than 5 telobox hits
 awk '$4>5' /netscratch/dep_coupland/grp_turck/carina/Windows/MpTak1v5_counts_hitsperwindow.bed >> Mp_Tak_Blacklist.bed
 awk '$4>5' /netscratch/dep_coupland/grp_turck/carina/Windows/P*_counts_hitsperwindow.bed >> Ppatens_Blacklist.bed
 
-
 ##blacklist for weird heatmap behaviour: 
-
 awk '$13 == "cluster_1"' /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/Heatmaps/SortedRegions.bed >> Mp_Tak_Blacklist_fromHeatmap.bed
 cat Mp_Tak_Blacklist.bed Mp_Tak_Blacklist_fromHeatmap.bed >> MpTak_Full_Blacklist.bed
 #sort -k1,1 -k2,2n MpTak_Full_Blacklist.bed > sorted_MpTak_Full_Blacklist.bed
