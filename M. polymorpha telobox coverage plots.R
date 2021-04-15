@@ -105,7 +105,7 @@ dev.off()
 
 
 
-## Schleife für das Speichern von Plots mit Regions with telobox repeats 
+## Schleife fÃ¼r das Speichern von Plots mit Regions with telobox repeats 
 Chromosomen=seq(1,27)
   
 for (chrom in Chromosomes)  {
