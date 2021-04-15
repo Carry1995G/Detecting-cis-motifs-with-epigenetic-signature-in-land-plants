@@ -1,32 +1,87 @@
 #!/bin/bash
 
+
+#### for P. patens ####
+#1. convert gff file to bed file and extract gene names and positions from annotation
+
+convert2bed --input=gff <./Downloads/Physcomitrium_patens_formerly_Physcomitrella_patens_annos1-cds0-id_typename-nu1-upa1-add_chr0.gid33928.gff >./Annotation_Files/gff2bed_Physcomitrium_patens.bed
+awk '$8=="gene" {print $1"\t"$2"\t"$3"\t"$4"\t"$5"\t"$6}' ./Annotation_Files/gff2bed_P*.bed >./Annotation_Files/gff2bed_Physcomitrium_patens_6_columns.bed
+
+#2. Sort Bigwig by converting it into BED file format, then sorting it and reconverting it to Bigwig
+
+cd BIGWIG
+
+bigWigToBedGraph telobox_Physcomitrium_patensblacklist.bw telobox_Physcomitrium_patens_BWtoBED.bed
+sort -k1,1 -k2,2n telobox_Physcomitrium_patens_BWtoBED.bed > sorted_telobox_Physcomitrium_patens_BWtoBED.bed
+bedGraphToBigWig sorted_telobox_Physcomitrium_patens_BWtoBED.bed ../Physcomitrium_patens_chrom.txt sorted_telobox_Physcomitrium_patens_blacklist.bw
+
+bigWigToBedGraph telolike_P*blacklist.bw telolike_Physcomitrium_BWtoBED.bed
+sort -k1,1 -k2,2n telolike_Physcomitrium_BWtoBED.bed > sorted_telolike_Physcomitrium_patens_BWtoBED.bed
+bedGraphToBigWig sorted_telolike_Physcomitrium_patens_BWtoBED.bed ../Physcomitrium_patens_chrom.txt sorted_telolike_Physcomitrium_patens_blacklist.bw
+
+rm *bed
+
+#### Compute Matrix for profile plots ####
+
+mkdir Matrix
+mkdir Plots
 cd ../Matrix
 
+## single plot profiles:
 
-## to quickly generate plot profiles without labels 
-#for i in sorted_*.gz
-#do
-#plotProfile -m $i -o ../Plots/${i%.gz}.png
-#done
+#P.patens:
+cd BIGWIG
+for i in sorted_telo*Physco*_blacklist.bw
+do
+computeMatrix scale-regions 	-S $i \
+				-R ./Annotation_Files/gff2bed_Physcomitrium_patens_6_columns.bed \
+				-b 1000 -a 1000 \
+				-bl ./Blacklists/Ppatens*.bed \
+				-o ./Matrix/"${i%.bw}_6bed_bamCovmin.gz" \
+done
+
+# M. polymorpha
+cd BIGWIG
+for i in sorted_telo*blacklist.bw
+do
+computeMatrix scale-regions 	-S $i \
+				-R ../Downloads/Mp*.gtf \
+				-b 1000 -a 1000 \
+				-bl ../Blacklists/Mp_Tak_Blacklist.bed \
+				-o ../Matrix/"${i%.bw}_GTF_Covmin.gz"
+done
+
+## two plot profiles
+computeMatrix scale-regions 	-S ./BIGWIG/sorted_telobox_P*blacklist.bw \
+				./BIGWIG/sorted_telolike_P*.bw \
+				-R ./Annotation_Files/gff2bed_Physcomitrium_patens_6_columns.bed \
+				-b 1000 -a 1000 \
+				-bl ./Blacklists/Ppatens*.bed \
+				-o ./Matrix/telobox-telolike_Physcomitrium_blacklist_6bed_bamCovmin.gz \				
+				
+computeMatrix scale-regions 	-S ./BIGWIG/sorted_telobox_M*blacklist.bw \
+				./BIGWIG/sorted_telolike_M*blacklist.bw \
+				-R ./Downloads/*.gtf \
+				-b 1000 -a 1000 \
+				-o ./Matrix/MpTak_telolike_telobox_blacklist_filGTF_bamCovmin.gz \
+				-bl ./Blacklists/cut*.bed
 
 
-### Generate Plot Profiles from matrices and label the samples (for protocol)
+#### Generate Plot Profiles from matrices #####
+
+# quickly generate plot profiles without labels:
+for i in sorted_*.gz
+do
+plotProfile -m $i -o ../Plots/${i%.gz}.png
+
+#plot profiles with labels 
 
 plotProfile 	-m telobox-telolike_P*.gz \
 		-o Ppatens_telobox_telolike_blacklist.png \
 		--samplesLabel "telobox sequences in Physcomitrella patens" "telolike sequences in Physcomitrium patens"
-
-#plotProfile 	-m telolike_P*blacklist*.gz \
-#		-o Ppatens_telolike_blacklist.png\
-#		--samplesLabel "telolike sequences in Physcomitrium patens"
-
-#plotProfile	-m Physcomitrium*blacklist_6bed*.gz\
-#		-o Ppatens_telobox_6bed_blacklist.png\
-#		--samplesLabel "telobox sequences in Physcomitrella patens" 
 
 plotProfile 	-m MpTak_telolike_telobox*.gz\
 		-o Mptak_telobox_telolike_blacklist.png\
 		--samplesLabel "telobox sequences in Marchantia polymorpha" "telolike sequences in Marchantia polymorpha"
 
 mv *png ../Plots
-
