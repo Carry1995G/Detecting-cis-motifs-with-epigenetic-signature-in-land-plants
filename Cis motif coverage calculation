@@ -1,0 +1,85 @@
+#!/bin/bash
+
+#### Calculate and extract chromosome length and save in txt file ########
+
+awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($0,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' ./Downloads/Physcomitrium_patens_formerly_Physcomitrella_patens.faa > Physcomitrium_patens_chrom.txt
+sed -i 's/lcl|//g' Physcomitrium_patens_chrom.txt  #remove lcl in front of scaffold
+sed -i 's/gi|//g' Physcomitrium_patens_chrom.txt #remove gi| in front of chromosomes
+
+awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($0,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' ./Downloads/MpTak1v5.1.fasta > MpTak1v5_chrom.txt
+sed -i 's/lcl|//g' MpTak1v5_chrom.txt
+
+#### Format cis motif annotated files in a usable format for future steps #####
+
+mkdir BED-files
+cd GFF-files
+
+for i in telobox_P*.gff
+do
+sed -i '/^[#]/ d' $i        #removes comment line of fuzznuc 
+sed -i '/^$/d' $i           #removes space
+gff2bed < $i | bedtools bedtobam -i - -g ../Physcomitrium_patens_chrom.txt | samtools sort -o ../BAM-files/"${i%.gff}.bam" -
+samtools index ../BAM-files/${i%.gff}.bam
+gff2bed < $i > ../BED-files/"${i%.gff}.bed"
+done
+
+#for i in telobox_MpT*.gff
+#do
+#sed -i '/^[#]/ d' $i 
+#sed -i '/^$/d' $i 
+#gff2bed < $i | bedtools bedtobam -i - -g ../MpTak1v5_chrom.txt | samtools sort -o ../BAM-files/"${i%.gff}.bam" -
+#samtools index ../BAM-files/${i%.gff}.bam
+#gff2bed < $i > ../BED-files/"${i%.gff}.bed"
+#done
+
+for i in telolike_M*.gff
+do
+sed -i '/^[#]/ d' $i 
+sed -i '/^$/d' $i 
+gff2bed < $i | bedtools bedtobam -i - -g ../MpTak1v5_chrom.txt | samtools sort -o ../BAM-files/"${i%.gff}.bam" -
+samtools index ../BAM-files/${i%.gff}.bam
+gff2bed < $i > ../BED-files/"${i%.gff}.bed"
+done
+
+for i in telolike_P*.gff
+do
+sed -i '/^[#]/ d' $i 
+sed -i '/^$/d' $i
+gff2bed < $i | bedtools bedtobam -i - -g ../Physcomitrium_patens_chrom.txt | samtools sort -o ../BAM-files/"${i%.gff}.bam" -
+samtools index ../BAM-files/${i%.gff}.bam
+gff2bed < $i > ../BED-files/"${i%.gff}.bed"
+done
+
+
+######## Coverage calculation without regions listed in blacklist##########
+
+mkdir BIGWIG
+cd BAM-files                                                                                            
+                                               
+for i in telobox_P*.bam                                                  
+do                                                              
+samtools index $i
+bamCoverage -b $i -o ../BIGWIG/${i/.bam/blacklist.bw} -p 70 --extendReads 200 --ignoreDuplicates -bl ../Blacklists/Ppatens_Blacklist.bed
+done
+
+                                                 
+for i in telobox_Mp*.bam                                                  
+do                                                              
+samtools index $i
+bamCoverage -b $i -o ../BIGWIG/${i/.bam/blacklist.bw} -p 70 --extendReads 200 --ignoreDuplicates -bl ../Blacklists/MpTak_F*.bed
+done
+
+
+for i in telolike_M*.bam                                                  
+do                                                              
+samtools index $i
+bamCoverage -b $i -o ../BIGWIG/${i/.bam/blacklist.bw} -p 70 --extendReads 200 --ignoreDuplicates -bl ../Blacklists/MpTak_F*.bed
+done
+
+for i in telolike_P*.bam                                                  
+do                                                              
+samtools index $i
+bamCoverage -b $i -o ../BIGWIG/${i/.bam/blacklist.bw} -p 70 --extendReads 200 --ignoreDuplicates -bl ../Blacklists/Ppatens_Blacklist.bed
+done
+
+© 2021 GitHub, Inc.
