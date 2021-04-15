@@ -1,4 +1,4 @@
-### Telobox Annotation mithilfe von fuzznuc (EMBOSS)
+### cis motif annotation with fuzznuc (EMBOSS)
 
 cd ..
 
