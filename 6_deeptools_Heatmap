@@ -1,0 +1,158 @@
+#!/bin/bash
+
+
+#SRR9974612: H3K27me3_Tak1_rep3
+#SRR9974623: H3K27me3_Tak1_rep2
+#SRR9974624:  H3K27me3_Tak1_rep1
+#SRR9974632: H3_Tak1_rep1
+
+################################################bamcoverage to bigwig
+
+#cd ./BWA-align/BAM-files/
+
+
+### did not work for sorted full Blacklist
+
+#for i in *.bam                                             
+#do                                                              
+#samtools index $i
+#bamCoverage -b $i -p 70 --normalizeUsing RPKM --ignoreDuplicates -bl /netscratch/dep_coupland/grp_turck/carina/Blacklists/sorted*.bed -o ../../Heatmaps/${i/.bam/fullblacklist.bw}
+#done
+
+#cd ../../Heatmaps 
+
+############
+
+cd Heatmaps
+
+#mv SRR9974612fullblacklist.bw H3K27me3_Tak1_rep3_fullblacklist.bw
+#mv SRR9974623fullblacklist.bw H3K27me3_Tak1_rep2_fullblacklist.bw
+#mv SRR9974624fullblacklist.bw H3K27me3_Tak1_rep1_fullblacklist.bw
+#mv SRR9974632fullblacklist.bw H3_Tak1_rep1_fullblacklist.bw
+
+
+#############compute Matrix###########
+
+
+#computeMatrix scale-regions 	-S H3K27me3_Tak1_rep3_blacklist.bw \
+#				H3_Tak1_rep1_blacklist.bw \
+#				-R /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/FeatureOverlap/K27+genes0.5.gtf \
+#				/netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/FeatureOverlap/testrep3.K27-genes0.5.gtf \
+#				-b 1000 -a 1000 \
+#				--missingDataAsZero \
+#				-bl /netscratch/dep_coupland/grp_turck/carina/Blacklists/cut*.bed \
+#				--skipZeros \
+#				-p 2 \
+#				-o K27+-_fullblacklist_misDas0_skip0_CDS.gz 
+#
+#computeMatrix scale-regions -S /netscratch/dep_coupland/grp_turck/carina/BIGWIG/sorted_telobox_MpTak1v5.1blacklist.bw \
+#				/netscratch/dep_coupland/grp_turck/carina/BedtoolsShuffle/MpTak1v5_telobox_shuffle_blacklist.bw \
+#				-R /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/FeatureOverlap/K27+genes0.5.gtf \
+#				/netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/FeatureOverlap/testrep3.K27-genes0.5.gtf \
+#				-b 1000 -a 1000 \
+#				--missingDataAsZero \
+#				-bl /netscratch/dep_coupland/grp_turck/carina/Blacklists/cut*.bed \
+#				--skipZeros \
+##				-p 2 \
+#				-o telobox_fullblacklist_misDas0_skip0_CDS.gz
+#
+#
+
+#computeMatrix scale-regions -S /netscratch/dep_coupland/grp_turck/carina/BIGWIG/sorted_telolike_MpTakblacklist.bw \
+#				/netscratch/dep_coupland/grp_turck/carina/BedtoolsShuffle/MpTak1v5_telolike_shuffle_blacklist.bw \
+#				-R /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/FeatureOverlap/K27+genes0.5.gtf \
+#				/netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/FeatureOverlap/testrep3.K27-genes0.5.gtf \
+#				-b 1000 -a 1000 \
+##				--missingDataAsZero \
+#				-bl /netscratch/dep_coupland/grp_turck/carina/Blacklists/cut*.bed \
+#				--skipZeros \
+##				-p 2 \
+#				-o telolike_fullblacklist_misDas0_skip0_CDS.gz
+
+
+#computeMatrix scale-regions -S /netscratch/dep_coupland/grp_turck/carina/BIGWIG/sorted_telolike_MpTakblacklist.bw \
+#				-R /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/FeatureOverlap/K27+genes0.5.gtf \
+#				/netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/FeatureOverlap/testrep3.K27-genes0.5.gtf \
+#				-b 1000 -a 1000 \
+##				--missingDataAsZero \
+#				-bl /netscratch/dep_coupland/grp_turck/carina/Blacklists/cut*.bed \
+#				--skipZeros \
+##				-p 2 \
+#				-o onlytelolike_fullblacklist_misDas0_skip0_CDS.gz
+
+#computeMatrix scale-regions -S /netscratch/dep_coupland/grp_turck/carina/BIGWIG/sorted_telobox_MpTakblacklist.bw \
+#				-R /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/FeatureOverlap/K27+genes0.5.gtf \
+#				/netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/FeatureOverlap/testrep3.K27-genes0.5.gtf \
+#				-b 1000 -a 1000 \
+##				--missingDataAsZero \
+#				-bl /netscratch/dep_coupland/grp_turck/carina/Blacklists/cut*.bed \
+#				--skipZeros \
+##				-p 2 \
+#				-o onlytelobox_fullblacklist_misDas0_skip0_CDS.gz
+
+
+
+#*23.bw -R /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/FeatureOverlap/testrep2.K27+genes0.5.gtf /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/FeatureOverlap/testrep2.K27-genes0.5.gtf -b 1000 -a 1000 -o K27+-rep2Matrix.gz
+#computeMatrix scale-regions -S *24.bw -R /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/FeatureOverlap/testrep1.K27+genes0.5.gtf /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/FeatureOverlap/testrep1.K27-genes0.5.gtf -b 1000 -a 1000 -o K27+-rep1Matrix.gz
+#computeMatrix scale-regions -S *12.bw *23.bw *24.bw -R /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/FeatureOverlap/testrep3.K27-genes0.5.gtf /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/FeatureOverlap/testrep2.K27-genes0.5.gtf /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/FeatureOverlap/testrep1.K27-genes0.5.gtf -b 1000 -a 1000 -o K27-repallMatrix.gz
+
+#cd ../Matrix
+
+#mv telobox_fullblacklist*.gz ../Heatmaps
+#mv telolike_fullblacklist*.gz ../Heatmaps
+
+#cd ../Heatmaps
+
+##########plot heatmaps ########
+
+#for matrix in *.gz
+#do
+#plotHeatmap -m $matrix -o ${matrix/.gz/.png} \
+#	--outFileSortedRegions ${matrix/.gz/clusters.bed} \
+#	--kmeans 4 
+#done 
+
+#mv *.gz ../Matrix
+
+
+#plotHeatmap 	-m /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/Heatmaps/telobox_fullblacklist*.gz \
+#		-o  telobox_pretty.png \
+#		--samplesLabel "telobox" "shuffled telobox" \
+#		--regionsLabel "H3K27 positive" "H3K27 negative"\
+#		--legendLocation "best"
+#		
+#plotHeatmap 	-m /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/Heatmaps/telolike_fullblacklist*.gz \
+#		-o  telolike_pretty.png \
+#		--samplesLabel "telolike" "shuffled telolike" \
+##		--regionsLabel "H3K27 positive" "H3K27 negative"\
+	#	--legendLocation "best"
+	#	
+###########################
+
+plotHeatmap 	-m /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/Heatmaps/telobox_fullblacklist*.gz \
+		-o  telobox_kmeans_CUS1_pretty.png \
+		--samplesLabel "telobox" "shuffled telobox" \
+		--legendLocation "best" \
+		--kmeans 5 \
+		--outFileSortedRegions telobox_kmeans5_CUS1.bed \
+		--clusterUsingSamples 1
+		
+plotHeatmap 	-m /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/Heatmaps/telolike_fullblacklist*.gz \
+		-o  telolike_kmeans_CUS1_pretty.png \
+		--samplesLabel "telolike" "shuffled telolike" \
+		--legendLocation "best" \
+		--kmeans 5		\
+		--outFileSortedRegions telolike_kmeans5_CUS1.bed \
+		--clusterUsingSamples 1
+		
+#cd /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/FeatureOverlap
+
+#for f in *overlap0.5
+#do
+#bedToBam -i $f -g ../../MpTak1v5.1_r1.gtf > $f.bam
+#bamCoverage -b $f.bam -o ../Heatmaps/${f/.bam/.bw} -p 70 --extendReads 200 --ignoreDuplicates 
+#rm *.bam
+#done 
+
+
+

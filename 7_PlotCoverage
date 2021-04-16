@@ -1,0 +1,18 @@
+#!/bin/bash
+
+mkdir PlotCoverage
+
+cd PlotCoverage
+
+plotCoverage -b /netscratch/dep_coupland/grp_turck/carina/BAM-files/telolike_MpTak.bam \
+		/netscratch/dep_coupland/grp_turck/carina/BAM-files/telobox_MpTak1v5.1.bam  \
+		/netscratch/dep_coupland/grp_turck/carina/BedtoolsShuffle/MpTak1v5_shuffle.bam \
+		/netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/BWA-align/BAM-files/*32.bam \
+		/netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/BWA-align/BAM-files/*24.bam \
+		/netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/BWA-align/BAM-files/*23.bam \
+		/netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/BWA-align/BAM-files/*12.bam \
+		--smartLabels \
+		-o plotCoverage.png
+
+
+#--outCoverageMetrics
