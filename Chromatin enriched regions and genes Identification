@@ -43,13 +43,8 @@ perl -ane 'print /gene_id "([A-Za-z0-9]+)";/, "\n";' /Downloads/Marchantia-chrom
 rm *temp
 done
 
-#convert gene text files to GTF
-cd ../..FeatureOverlap
-
-for txt in *genes0.5.txt 
-do 
-grep -Ff $txt ../../MpTak1v5.1_r1.gtf > "${txt%.txt}.gtf"
-done
-
-#convert text file to GTF that includes only the genes that are marked positive in the Venn diagram 
+#Compared gene lists of H3K27me3 positive and negative genes of all runs via VennDiagram: Common genes were stored in K27+genes0.5.txt and K27-genes0.5.txt
+#convert text file to GTF that includes only the genes that are marked positive/ negative in the Venn diagram 
 grep -Ff K27+genes0.5.txt ../../MpTak1v5.1_r1.gtf > K27+genes0.5.gtf
+grep -Ff K27-genes0.5.txt ../../MpTak1v5.1_r1.gtf > K27-genes0.5.gtf
+
