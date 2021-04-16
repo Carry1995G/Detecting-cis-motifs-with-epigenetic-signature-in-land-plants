@@ -1,8 +1,8 @@
 #!/bin/bash
 
+####retrieve genes clustered according to their heatmap behaviour####
+
 cd Heatmaps
-
-
 
 for i in *CUS1.bed
 do
@@ -12,26 +12,13 @@ awk '$13 == "cluster_3" {print$4}' /netscratch/dep_coupland/grp_turck/carina/Dow
 awk '$13 == "cluster_4" {print$4}' /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/Heatmaps/telolike*.bed >> /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/GO-Analyse/"${i%.bed}_cluster4.txt"
 done 
 
-#cd /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/GO-Analyse
 
-
-#for b in *.bed
-#do
-#sed -i '/Before/d' $b
-#awk -i inplace '{sub(/^\S+\s*/,"")}1' $b
-#cut -d\. -f1 $b >> $b.converted.txt
-#done
-
+####Create GO-ID gene maps that list GO-IDs per gene####
 
 ###for TOP-GO
+awk '{a[$1]=a[$1]" " $2}END{for (i in a) print i"\t" a[i]}' MpTak1v5.1r1_GO_annotation.tsv >> GO-Annotation.map
+#then: manually remove space between GO and genes, add comma between genes in Notepad++
 
-#awk '{a[$1]=a[$1]" " $2}END{for (i in a) print i"\t" a[i]}' MpTak1v5.1r1_GO_annotation.tsv >> GO-Annotation.map
-
-###manually remove space between GO and genes, add comma between genes in Notepad++
-
-
-
-###for ViSEAGO
- 
-#awk {'print $1'} MpTak1v5.1r1_GO_annotation.tsv >> Gene-file.txt
-#pr -m -t --header="taxid	gene_id	gene_symbol	GOID	evidence"    Gene-file.txt MpTak1v5.1r1_GO_annotation.tsv | gawk '{print "Marchantia_polymorpha",$1,$2,$3, "CG" }' >> GO-Annotation.txt
+###for ViSEAGO (not used but can be helpful in the future)
+awk {'print $1'} MpTak1v5.1r1_GO_annotation.tsv >> Gene-file.txt
+pr -m -t --header="taxid	gene_id	gene_symbol	GOID	evidence"    Gene-file.txt MpTak1v5.1r1_GO_annotation.tsv | gawk '{print "Marchantia_polymorpha",$1,$2,$3, "CG" }' >> GO-Annotation.txt
