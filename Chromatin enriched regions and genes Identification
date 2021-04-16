@@ -1,28 +1,19 @@
 #!/bin/bash
 
-
 #### Identify enriched regions #####
-
 #export PATH=/netscratch/dep_coupland/grp_turck/lib/miniconda/bin/
-
-#SRR9974612: H3K27me3_Tak1_rep3
-#SRR9974623: H3K27me3_Tak1_rep2
-#SRR9974624:  H3K27me3_Tak1_rep1
-#SRR9974632: H3_Tak1_rep1
+#SRR9974612: H3K27me3_Tak1_rep3 - SRR9974623: H3K27me3_Tak1_rep2 - SRR9974624:  H3K27me3_Tak1_rep1 - SRR9974632: H3_Tak1_rep1
 
 mkdir EPIC
 cd ./BWA-align/BAM-files
 
 #rep1
 epic2 --treatment *24.bam --control *32.bam --chromsizes /netscratch/dep_coupland/grp_turck/carina/MpTak1v5_chrom.txt --bin-size 100 --fragment-size 300 --output /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/EPIC/testrep1
-
 #rep2
 epic2 --treatment *23.bam --control *32.bam --chromsizes /netscratch/dep_coupland/grp_turck/carina/MpTak1v5_chrom.txt --bin-size 100 --fragment-size 300 --output /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/EPIC/testrep2
-
 #rep3
 epic2 --treatment *12.bam --control *32.bam --chromsizes /netscratch/dep_coupland/grp_turck/carina/MpTak1v5_chrom.txt --bin-size 100 --fragment-size 300 --output /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/EPIC/testrep3
-
-#bedtools shuffle - generate control:
+#control
 bedtools shuffle -i /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/EPIC/testrep1 -g /netscratch/dep_coupland/grp_turck/carina/MpTak1v5_chrom.txt > /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/EPIC/controlrep1
 
 #### Identify enriched genes #### 
@@ -33,7 +24,7 @@ cd Downloads
 #generate annotation file in bed format
 gtf2bed < Mp*.gtf > MpTak1v5_GTFtoBED.bed
 
-#find genes with H3K27me3 modification 
+#genes with H3K27me3 modification 
 cd /Downloads/Marchantia-chromatin/EPIC/
 for i in ./*
 do
@@ -43,7 +34,7 @@ perl -ane 'print /gene_id "([A-Za-z0-9]+)";/, "\n";' /Downloads/Marchantia-chrom
 rm *temp
 done
 
-#find genes without H3K27me3 modification
+#genes without H3K27me3 modification
 for i in ./*
 do
 bedtools intersect -a ../../MpTak1v5_GTFtoBED.bed -b $i -f 0.5 -v > /Downloads/Marchantia-chromatin/FeatureOverlap/$i.K27-featuresoverlap0.5.bed
@@ -51,3 +42,14 @@ grep -w 'transcript' /Downloads/Marchantia-chromatin/FeatureOverlap/$i.K27-featu
 perl -ane 'print /gene_id "([A-Za-z0-9]+)";/, "\n";' /Downloads/Marchantia-chromatin/FeatureOverlap/$i.temp | uniq > /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/FeatureOverlap/$i.K27-genes0.5.txt
 rm *temp
 done
+
+#convert gene text files to GTF
+cd ../..FeatureOverlap
+
+for txt in *genes0.5.txt 
+do 
+grep -Ff $txt ../../MpTak1v5.1_r1.gtf > "${txt%.txt}.gtf"
+done
+
+#convert text file to GTF that includes only the genes that are marked positive in the Venn diagram 
+grep -Ff K27+genes0.5.txt ../../MpTak1v5.1_r1.gtf > K27+genes0.5.gtf
