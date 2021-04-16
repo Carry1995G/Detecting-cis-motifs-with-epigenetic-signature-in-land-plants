@@ -14,9 +14,11 @@ bedtools coverage -a ./Windows/Physcomitriumpatens_200bpwindows.bed -b ./BED-fil
 awk '$4>5' /netscratch/dep_coupland/grp_turck/carina/Windows/MpTak1v5_counts_hitsperwindow.bed >> Mp_Tak_Blacklist.bed
 awk '$4>5' /netscratch/dep_coupland/grp_turck/carina/Windows/P*_counts_hitsperwindow.bed >> Ppatens_Blacklist.bed
 
+
+
 ##blacklist for weird heatmap behaviour: 
 awk '$13 == "cluster_1"' /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/Heatmaps/SortedRegions.bed >> Mp_Tak_Blacklist_fromHeatmap.bed
 cat Mp_Tak_Blacklist.bed Mp_Tak_Blacklist_fromHeatmap.bed >> MpTak_Full_Blacklist.bed
-#sort -k1,1 -k2,2n MpTak_Full_Blacklist.bed > sorted_MpTak_Full_Blacklist.bed
-#bedtools merge -s sorted_MpTak_Full_Blacklist.bed  >> merged_Mp_Tak_BlacklistfromHeatmap.bed 
-#cut -f1-3 sorted_MpTak_Full_Blacklist.bed >> cut_sorted_MpTak_Full_Blacklist.bed
+sort -k1,1 -k2,2n MpTak_Full_Blacklist.bed > sorted_MpTak_Full_Blacklist.bed
+bedtools merge -s sorted_MpTak_Full_Blacklist.bed  >> merged_Mp_Tak_BlacklistfromHeatmap.bed 
+cut -f1-3 sorted_MpTak_Full_Blacklist.bed >> cut_sorted_MpTak_Full_Blacklist.bed
