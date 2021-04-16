@@ -1,0 +1,40 @@
+#!/bin/bash
+
+mkdir BWA-align
+mkdir BWA-align/BAM-files
+mkdir BWA-align/BED-files
+
+#### Align chromatin data with bwa to genome ####
+
+#create bwa index for M. polymorpha. Needs to be done only once
+cd ./Downloads
+bwa index -p MpTak1v5.1bwaidx -a bwtsw MpTak1v5.1.fasta
+
+#alingn with standard parameters
+cd /fastq
+bwa mem -t 4 /netscratch/dep_coupland/grp_turck/carina/Downloads/MpTak1v5.1bwaidx SRR9974612_1.fastq SRR9974612_2.fastq | samtools view -b - | samtools sort - -o SRR9974612.bam
+bwa mem -t 4 /netscratch/dep_coupland/grp_turck/carina/Downloads/MpTak1v5.1bwaidx SRR9974623_1.fastq SRR9974623_2.fastq | samtools view -b - | samtools sort - -o SRR9974623.bam
+bwa mem -t 4 /netscratch/dep_coupland/grp_turck/carina/Downloads/MpTak1v5.1bwaidx SRR9974624_1.fastq SRR9974624_2.fastq | samtools view -b - | samtools sort - -o SRR9974624.bam
+bwa mem -t 4 /netscratch/dep_coupland/grp_turck/carina/Downloads/MpTak1v5.1bwaidx SRR9974632_1.fastq SRR9974632_2.fastq | samtools view -b - | samtools sort - -o SRR9974632.bam
+
+#make bedfiles from the bam files
+for i in *bam
+do 
+bedtools bamtobed -i $i > "${i%.bam}.bed"
+done 
+
+#count the mapped reads for each mapping
+for i in *bed
+do
+wc -l $i >>mapped_reads.txt
+done
+
+mv *.bam ../BWA-align/BAM-files
+mv *.bed ../BWA-align/BED-files
+
+cd -
+
+#Command for server:  
+bsub -q normal -R 10240 -M 12288 sh 2_BWAalign.sh
+
+ 
