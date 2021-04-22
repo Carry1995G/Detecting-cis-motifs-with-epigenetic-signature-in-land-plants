@@ -22,3 +22,7 @@ awk '{a[$1]=a[$1]" " $2}END{for (i in a) print i"\t" a[i]}' MpTak1v5.1r1_GO_anno
 ###for ViSEAGO (not used but can be helpful in the future)
 awk {'print $1'} MpTak1v5.1r1_GO_annotation.tsv >> Gene-file.txt
 pr -m -t --header="taxid	gene_id	gene_symbol	GOID	evidence"    Gene-file.txt MpTak1v5.1r1_GO_annotation.tsv | gawk '{print "Marchantia_polymorpha",$1,$2,$3, "CG" }' >> GO-Annotation.txt
+
+
+###### Create gene list
+ cat K27-genes*.txt K27+genes*.txt > genes.txt
