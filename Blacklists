@@ -1,5 +1,6 @@
 #!/bin/bash
 
+###### Part 1: removing telo repeats #####
 mkdir Windows
 
 #portion genome in similar sized windows of 200 bp 
@@ -15,6 +16,7 @@ awk '$4>5' /netscratch/dep_coupland/grp_turck/carina/Windows/MpTak1v5_counts_hit
 awk '$4>5' /netscratch/dep_coupland/grp_turck/carina/Windows/P*_counts_hitsperwindow.bed >> Ppatens_Blacklist.bed
 
 
+###########Part 2: removing intergenic regions#######
 
 ##blacklist for weird heatmap behaviour: 
 awk '$13 == "cluster_1"' /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/Heatmaps/SortedRegions.bed >> Mp_Tak_Blacklist_fromHeatmap.bed
