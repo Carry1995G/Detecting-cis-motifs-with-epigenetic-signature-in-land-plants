@@ -1,3 +1,7 @@
+#################################
+# Plot gene ontology enrichment #
+#################################
+
 # Requires the package 'ggplot2' (needs to be installed first)
 # Load the ggplot2 package
 library(ggplot2)
@@ -5,12 +9,13 @@ library(ggplot2)
 # set the working directory where the tables to use are located
 setwd("~/Studium/Master/Projektmodul Turck/GO-Analyse")
 
-
+##find relevant telobox and telolike files for each biological process 
 GOfiles=list.files(pattern="^group_telo[a-z]{3,4}_[A-Z]{2}.txt$", recursive=TRUE)
 
+## loop over all files, save GOdomain and respective cis motif (Telobox/ Telolike) in variable for future naming
 for (i in 1:length(GOfiles)) {
   splitname=strsplit(GOfiles[[i]], '[-__|.]')[[1]]
-  GOprocess=splitname[3]
+  GOdomain=splitname[3]
   Telo=splitname[2]
   
   # Import the table containing the enriched GO terms by groups
@@ -35,13 +40,6 @@ for (i in 1:length(GOfiles)) {
   #GO_gp$Group<- factor(GO_gp$Group,levels = c("WT_up","WT_down","mutant_up","mutant_down"))
   GO_gp$GO_biological_process<-factor(GO_gp$GO_biological_process,levels=rev(levels(GO_gp$GO_biological_process)))
   
-  # Create a vector with new names for groups to use in the plot
-  # Replace the terms by your own (\n allow to start a new line)
-  #group.labs <- c(`WT_up` = "WT up-\nregulated",
-   #               `WT_down` = "WT down-\nregulated",
-    #              `mutant_up` = "Mutant up-\nregulated",
-     #             `mutant_down` = "Mutant down-\nregulated")
-  
   # Draw the plot in facets by group with ggplot2
   # to represent -log10(FDR), Number of genes and 
   # Fold enrichment of each GO biological process per group (Figure 3)
@@ -59,12 +57,13 @@ for (i in 1:length(GOfiles)) {
           axis.text = element_text(color = "black"),
           panel.grid.minor = element_blank(),
           legend.title.align=0.5)+
-    xlab(paste(GOprocess))+
+    xlab(paste(GOdomain))+
     ylab("Fold enrichment")+
     labs(color="-log10(FDR)", size="Number\nof genes")+
-    facet_wrap(~Group,ncol=4)#labeller=as_labeller(group.labs))+#after "ncol=", specify the number of groups you have
+    facet_wrap(~Group,ncol=4)
   guides(y = guide_legend(order=2),
          colour = guide_colourbar(order=1))
   
-  ggsave (filename=paste(Telo,"_",GOprocess,".png"),width=8, height=6)
+  #export plot in png file
+  ggsave (filename=paste(Telo,"_",GOdomain,".png"),width=8, height=6)
 }
