@@ -3,20 +3,23 @@ Bio informatical analysis of teloboxes in M. polymorpha and P. patens
 
 Order: 
 
-Cis-motif annotation \n
-M. polymorpha telobox coverage plots.R
-Physcomitrium_Plots.R
-Blacklists
-Cis motif coverage calculation
-Cis-motif plot profiles
+**Cis-motif Analysis**
+Cis-motif annotation *bash script*<br />
+M. polymorpha telobox coverage plots.R *R script*<br />
+Physcomitrium_Plots.R *R script*<br />
+Blacklists *bash script*<br />
+Cis motif coverage calculation *bash script*<br />
+Cis-motif plot profiles *bash script*<br />
 
 10_GFFread_Annotation
 
-Chromatin sequences download
-Chromatin Alignment
-Chromatin enriched regions and genes Identification
-6_deeptools_Heatmap
+**Chromatin-Analysis**
+Chromatin sequences download *bash script*<br />
+Chromatin Alignment *bash script*<br />
+Chromatin enriched regions and genes Identification *bash script*<br />
+6_deeptools_Heatmap *bash script*
 
-GO-Enrichment Analysis Preparation: Gene Clusters, Map, Gene list
-GO-Enrichment Analysis.R
-GO-Analysis Visualization.R
+**GO-Enrichment Analysis**
+GO-Enrichment Analysis Preparation: Gene Clusters, Map, Gene list *bash script* <br />
+GO-Enrichment Analysis.R *R script*<br />
+GO-Analysis Visualization.R *R script*<br />
