@@ -8,8 +8,6 @@ for i in *CUS1.bed
 do
 awk '$13 == "cluster_1" {print$4}' /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/Heatmaps/telolike*.bed >> /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/GO-Analyse/"${i%.bed}_cluster1.txt"
 awk '$13 == "cluster_2" {print$4}' /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/Heatmaps/telolike*.bed >> /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/GO-Analyse/"${i%.bed}_cluster2.txt"
-awk '$13 == "cluster_3" {print$4}' /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/Heatmaps/telolike*.bed >> /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/GO-Analyse/"${i%.bed}_cluster3.txt"
-awk '$13 == "cluster_4" {print$4}' /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/Heatmaps/telolike*.bed >> /netscratch/dep_coupland/grp_turck/carina/Downloads/Marchantia-chromatin/GO-Analyse/"${i%.bed}_cluster4.txt"
 done 
 
 
