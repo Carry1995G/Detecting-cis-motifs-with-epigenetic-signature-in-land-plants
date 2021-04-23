@@ -1,5 +1,5 @@
 # Detecting-cis-motifs-with-epigenetic-signature-in-land-plants
-Bio informatical analysis of teloboxes in M. polymorpha and P. patens
+Bio informatical analysis of teloboxes and telolike sequences in *M. polymorpha* and *P. patens*
 
 Order:<br /> 
 
