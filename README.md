@@ -3,7 +3,7 @@ Bio informatical analysis of teloboxes in M. polymorpha and P. patens
 
 Order: 
 
-Cis-motif annotation
+Cis-motif annotation \n
 M. polymorpha telobox coverage plots.R
 Physcomitrium_Plots.R
 Blacklists
